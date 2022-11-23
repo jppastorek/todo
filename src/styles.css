@@ -18,6 +18,7 @@
     background-color: #ededed;
     border-radius: 5px;
     display: flex;
+    flex-direction: column;
 }
 
 .add-button {
@@ -31,4 +32,10 @@
 .form {
     display: flex;
     flex-direction: column;
+}
+
+.save-button {
+    width: 100px;
+    height: 40px;
+    cursor: pointer;
 }

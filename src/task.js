@@ -35,11 +35,11 @@ export class Task {
 
 export const taskList = [];
 
-export function createTaskForm() {
+export function createTaskForm(taskContainer) {
   //header
   const header = document.createElement('h4');
   header.classList.add('header');
-  header.innerText = 'Create a New Task'
+  header.innerText = 'Create a New Task';
   //form
   const form = document.createElement('form');
   form.classList.add('form');
@@ -54,13 +54,13 @@ export function createTaskForm() {
   titleInput.setAttribute('for', 'title');
   //description label
   const descriptionLabel = document.createElement('label');
-  titleLabel.setAttribute('for', 'description');
-  titleLabel.innerText = 'Description:';
+  descriptionLabel.setAttribute('for', 'description');
+  descriptionLabel.innerText = 'Description:';
   //description input
   const descriptionInput = document.createElement('input');
-  titleInput.setAttribute('type', 'text');
-  titleInput.setAttribute('id', 'description');
-  titleInput.setAttribute('for', 'description');
+  descriptionInput.setAttribute('type', 'textarea');
+  descriptionInput.setAttribute('id', 'description');
+  descriptionInput.setAttribute('for', 'description');
   //high priority checkbox
   const priorityCheckbox = document.createElement('input');
   priorityCheckbox.setAttribute('type', 'checkbox');
@@ -76,6 +76,7 @@ export function createTaskForm() {
   saveButton.classList.add('save-button');
   saveButton.setAttribute('type', 'button');
   saveButton.setAttribute('value', 'Save');
+  saveButton.innerText = 'Save';
   saveButton.addEventListener('click', saveTask());
 
   //create a list of all form elements
@@ -90,4 +91,5 @@ export function createTaskForm() {
 
 export function saveTask() {
   console.log('Task saved.');
+  // taskList.push(new Task(titleInput.value, descriptionInput.value, 'date', priorityCheckbox.value, false));
 }

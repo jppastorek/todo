@@ -13,7 +13,7 @@ taskContainer.classList.add('task-container');
 content.appendChild(taskContainer);
 const newTaskButton = document.createElement('div');
 newTaskButton.classList.add('add-button');
-newTaskButton.addEventListener('click', createTaskForm);
+newTaskButton.addEventListener('click', createTaskForm(taskContainer));
 taskContainer.appendChild(newTaskButton);
 
 //This is just used to make sure the objects worked and dates formatted properly
