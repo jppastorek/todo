@@ -1,5 +1,6 @@
-import {Task, taskList, createTaskForm, saveTask} from './task.js';
-// import * as task from './task.js';
+import {Task, taskList} from './task.js';
+import { createTaskForm } from './ui.js';
+import { saveTask, deleteTask } from './controller.js';
 import { format, compareAsc } from 'date-fns';
 import './styles.css';
 
@@ -11,9 +12,13 @@ body.appendChild(content);
 const taskContainer = document.createElement('div');
 taskContainer.classList.add('task-container');
 content.appendChild(taskContainer);
+taskContainer.innerText = 'Add task';
 const newTaskButton = document.createElement('div');
 newTaskButton.classList.add('add-button');
-newTaskButton.addEventListener('click', createTaskForm(taskContainer));
+newTaskButton.innerText = 'Add task';
+newTaskButton.addEventListener('click', () => {
+    createTaskForm(taskContainer)
+});
 taskContainer.appendChild(newTaskButton);
 
 //This is just used to make sure the objects worked and dates formatted properly

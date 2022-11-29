@@ -6,7 +6,9 @@ module.exports = {
   entry: {
     index: './src/index.js',
     task: './src/task.js',
-    storage: './src/storage.js'
+    storage: './src/storage.js',
+    ui: './src/ui.js',
+    controller: './src/controller.js'
   },
   devtool: 'inline-source-map',
   plugins: [

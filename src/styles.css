@@ -12,26 +12,35 @@
 }
 
 .task-container {
-    height: 300px;
-    width: 300px;
+    height: 100%;
+    width: 75vw;
     border: 1px solid lightgray;
     background-color: #ededed;
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .add-button {
     height: 200px;
     width: 200px;
-    background-image: url('./add-button.png');
+    /* background-image: url('./add-button.png'); */
     object-fit: fill;
     cursor: pointer;
+    border: 1px solid grey;
+    display: grid;
+    justify-content: center;
+    align-items: center;
 }
 
-.form {
+.form, .task-item {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
 }
 
 .save-button {
@@ -39,3 +48,4 @@
     height: 40px;
     cursor: pointer;
 }
+
