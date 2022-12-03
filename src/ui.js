@@ -1,5 +1,3 @@
-//PART OF THE VIEW
-
 import { saveTask } from "./controller";
 import { taskList } from "./task";
 
@@ -12,6 +10,9 @@ export function buildPage() {
   content.appendChild(buildHeader());
   content.appendChild(buildProjectContainer());
   content.appendChild(buildTaskContainer());
+  content.appendChild(buildTaskForm());
+  content.appendChild(buildFooter());
+  content.appendChild(buildModalOverlay());
 }
 
 export function buildHeader() {
@@ -43,6 +44,7 @@ export function buildTaskContainer() {
   const taskContainer = document.createElement('div');
   taskContainer.classList.add('task-container');
   taskContainer.appendChild(buildTaskContainerHeader('Inbox'));
+  // displayTasks(taskContainer);
   return taskContainer;
 }
 
@@ -59,16 +61,24 @@ export function buildTaskContainerHeader(name){
   toolTipText.classList.add('tooltiptext');
   toolTipText.innerText = 'Add a new task';
   plusSign.appendChild(toolTipText);
+  plusSign.addEventListener('click', () => {
+    displayTaskForm(modal, modalOverlay);
+  });
   taskContainerHeader.appendChild(plusSign);
   return taskContainerHeader;
 }
 
+export function displayTaskForm(modal, modalOverlay) {
+  modal.classList.toggle('hidden');
+  modalOverlay.classList.toggle('hidden');
+}
+
 
 //This is to try building a new container
-export function buildTaskItemsContainer() {
-  const taskItemsContainer = document.createElement('div');
-  taskItemsContainer.classList.add
-}
+// export function buildTaskItemsContainer() {
+//   const taskItemsContainer = document.createElement('div');
+//   taskItemsContainer.classList.add('m');
+// }
 
 export function buildTaskItem(title, date, priority) {
   const taskItem = document.createElement('div');
@@ -107,22 +117,35 @@ export function buildTaskItem(title, date, priority) {
 //Will have to build another container
 //For right now, I'll just rebuild the header unnecessarily because I'm stupid
 
-export function displayTasks(taskContainer, projectName) {
+export function displayTasks(taskContainer) {
   taskList.forEach((task) => {
-    taskContainer.appendChild(buildTaskItem(task.title, task.date, task.priority));
+    const taskItem = buildTaskItem(task.title, task.date, task.priority);
+    taskContainer.appendChild(taskItem);
   });
 }
 
-export function createTaskForm(taskContainer) {
+export function buildTaskForm() {
+  //modal
+  const modal = document.createElement('div');
+  modal.classList.add('modal', 'hidden');
+  modal.setAttribute('id', 'modal');
+  const modalContent = document.createElement('div');
+  modalContent.classList.add('modal-content');
+  const modalOverlay = document.createElement('div');
+  modalOverlay.classList.add('modal-overlay', 'hidden');
+  modalOverlay.setAttribute('id', 'modal-overlay');
   //form
-  const form = document.createElement('form');
+  const form = document.createElement('div');
   form.classList.add('form');
   //title input
   const titleInput = document.createElement('input');
   titleInput.setAttribute('type', 'text');
   titleInput.setAttribute('id', 'title');
   titleInput.setAttribute('for', 'title');
-  titleInput.setAttribute('placeholder', 'Name your task');
+  titleInput.setAttribute('placeholder', 'New task');
+  //new row
+  const formRow = document.createElement('div');
+  formRow.classList.add('form-row');
   //date input
   const dateInput = document.createElement('input');
   dateInput.setAttribute('type', 'date');
@@ -140,21 +163,50 @@ export function createTaskForm(taskContainer) {
   highPriorityOption.innerText = 'high';
   priorityDropdown.appendChild(normalPriorityOption);
   priorityDropdown.appendChild(highPriorityOption);
+  //save row
+  const saveRow = document.createElement('div');
+  saveRow.classList.add('save-row');
+  //cancel button
+  const cancelButton = document.createElement('button');
+  cancelButton.classList.add('cancel');
+  cancelButton.innerText = 'Cancel';
+  cancelButton.addEventListener('click', ()=> {
+    displayTaskForm(modal, modalContent);
+  })
   //save button
   const saveButton = document.createElement('button');
-  saveButton.classList.add('save-button');
+  saveButton.classList.add('save');
   saveButton.setAttribute('type', 'button');
   saveButton.setAttribute('value', 'Save');
   saveButton.innerText = 'Save';
   saveButton.addEventListener('click', ()=> {
     saveTask(titleInput.value, dateInput.value, priorityDropdown.value);
-    displayTasks(taskContainer);
+    updateTasks();
+    displayTaskForm(modal, modalContent);
+    //update view
   });
-    //create a list of all form elements
-  const formElements = [titleInput, dateInput, priorityDropdown, saveButton];
-
-  //build it
-  taskContainer.innerHTML = '';
-  taskContainer.appendChild(form);
-  formElements.forEach(element => form.appendChild(element));
+  modal.appendChild(modalContent);
+  modalContent.appendChild(form);
+  form.appendChild(titleInput);
+  form.appendChild(formRow);
+  formRow.appendChild(dateInput);
+  formRow.appendChild(priorityDropdown);
+  form.appendChild(saveRow);
+  saveRow.appendChild(cancelButton);
+  saveRow.appendChild(saveButton);
+  return modal;
 };
+
+export function buildModalOverlay() {
+  const modalOverlay = document.createElement('div');
+  modalOverlay.classList.add('modal-overlay', 'hidden');
+  return modalOverlay;
+}
+
+export function updateTasks() {
+  //some code
+};
+
+export function buildFooter() {
+  //some code
+}
