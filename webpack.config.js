@@ -7,7 +7,7 @@ module.exports = {
     index: './src/index.js',
     task: './src/task.js',
     storage: './src/storage.js',
-    ui: './src/ui.js',
+    view: './src/view.js',
     controller: './src/controller.js'
   },
   devtool: 'inline-source-map',

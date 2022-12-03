@@ -1,10 +1,10 @@
-import {Task, taskList} from './task.js';
-import { createTaskForm, buildPage, buildHeader } from './ui.js';
-import { saveTask, deleteTask } from './controller.js';
-import { format, compareAsc } from 'date-fns';
+import { Controller } from './controller.js';
+import { View } from './view.js';
 import './styles.css';
 
-buildPage();
+const controller = new Controller();
+const view = new View(controller, document.body)
+view.buildPage();
 
 //This is just used to make sure the objects worked and dates formatted properly
 // taskList.push(new Task('task1','test', format(new Date(2022, 10, 29), 'MM/dd/yyyy'), 'high', false));

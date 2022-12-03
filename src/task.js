@@ -19,12 +19,12 @@ export class Task {
   getDueDate() {
     return this.dueDate;
   }
-  
+
   setDueDate(newDueDate) {
     this.dueDate = newDueDate;
     return this.dueDate;
   }
-  
+
   getPriority() {
     return this.priority;
   }
@@ -43,8 +43,4 @@ export class Task {
     return this.state;
   }
 }
-
-export const taskList = [];
-
-
 
