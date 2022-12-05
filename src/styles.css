@@ -1,51 +1,386 @@
-* {
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&family=Roboto&family=Roboto+Slab&display=swap');
+
+*,
+*:before,
+*:after {
     box-sizing: border-box;
     margin: 0;
+    padding: 0;
+
+}
+
+:root {
+    --darker-grey: #1b1b1b;
+    --dark-grey: #343434;
+    --white: #ffffff;
+    --lighter-grey: #bdbdbd;
+    --light-grey: #9b9999;
+    --medium-grey: #575757;
+    --timely-blue: #009eff;
+    --lighter-timely-blue: #41b4fc;
+    --overlay-grey: rgba(0, 0, 0, 0.842);
+    --cancel-red: rgb(126, 83, 83);
+    --cancel-red-hover: rgb(141, 75, 75);
+
 }
 
 #content {
     display: grid;
-    justify-content: center;
-    align-items: center;
-    background-color: #d8d9cf;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 50px auto 25px;
     height: 100vh;
+    padding: 10px;
+    gap: 10px;
+    overflow: scroll;
+    background-color: var(--darker-grey);
 }
+
+.header {
+    grid-column: 1/3;
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    color: var(--timely-blue);
+    border: none;
+    font-family: 'Pacifico', cursive;
+    font-size: larger;
+    margin-bottom: 10px;
+}
+
+.header a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.header a:visited {
+    color: var(--timely-blue);
+}
+
+/*PROJECTS -----------------------------------------*/
+
+.project-container {
+    grid-row: 2/3;
+    padding: 20px;
+    color: var(--lighter-grey);
+    background-color: var(--dark-grey);
+    border: 1px solid var(--dark-grey);
+    border-radius: 4px;
+    font-family: 'Roboto Slab', serif;
+}
+
+.project-item {
+    height: 40px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.project-item:hover {
+    background-color: var(--medium-grey);
+    border: 1px solid var(--medium-grey);
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 9px;
+}
+
+/*TASKS --------------------------------------------*/
 
 .task-container {
-    height: 100%;
-    width: 75vw;
-    border: 1px solid lightgray;
-    background-color: #ededed;
-    border-radius: 5px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
-    justify-content: center;
-    align-items: center;
+    grid-row: 2/3;
+    background-color: var(--dark-grey);
+    border: 1px solid var(--dark-grey);
+    border-radius: 4px;
 }
 
-.add-button {
-    height: 200px;
-    width: 200px;
-    /* background-image: url('./add-button.png'); */
-    object-fit: fill;
-    cursor: pointer;
-    border: 1px solid grey;
-    display: grid;
-    justify-content: center;
-    align-items: center;
-}
+/*-----TASKS HEADER--------*/
 
-.form, .task-item {
+.tasks-header {
     display: flex;
     flex-direction: row;
-    gap: 20px;
-    padding: 20px;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--lighter-grey);
+    margin-bottom: 10px;
+    font-family: 'Roboto Slab', serif;
+    font-size: larger;
 }
 
-.save-button {
-    width: 100px;
-    height: 40px;
+.add {
+    color: var(--timely-blue);
+}
+
+.add:hover {
+    cursor: pointer;
+    color: var(--lighter-timely-blue);
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--darker-grey);
+    color: var(--lighter-grey);
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    right: 135%;
+    top: 12px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+/*-------TASK ITEMS ----------*/
+
+.task-item {
+    height: 50px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+    color: var(--lighter-grey);
+    border: 1px solid var(--darker-grey);
+    border-width: 0 0 1px 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+.task-item:hover {
+    background-color: var(--medium-grey);
+    border: 1px solid var(--medium-grey);
+    border-radius: 4px;
+}
+
+.checkbox {
+    position: relative;
+    width: 1.5em;
+    height: 1.5em;
+    color: var(--darker-grey);
+    border: 1px solid var(--lighter-grey);
+    border-radius: 10px;
+    appearance: none;
+    outline: 0;
+    cursor: pointer;
+    transition: 175ms cubic-bezier(0.1, 0.1, 0.25, 1);
+}
+
+.checkbox::before {
+    position: absolute;
+    content: '';
+    display: block;
+    top: 0px;
+    left: 5px;
+    width: 6px;
+    height: 12px;
+    border-style: solid;
+    border-color: var(--timely-blue);
+    border-width: 0 2px 2px 0;
+    transform: rotate(31deg);
+    opacity: 0;
+}
+
+.checkbox:checked {
+    color: var(--timely-blue);
+    border-color: var(--lighter-grey);
+}
+
+.checkbox:checked:before {
+    opacity: 1;
+}
+
+label::before {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+}
+
+.delete {
+    height: 16px;
+    color: var(--lighter-grey);
+}
+
+.delete:hover {
     cursor: pointer;
 }
 
+.high {
+    color: red;
+    font-weight: bold;
+}
+
+.normal {
+    color: var(--lighter-grey);
+    ;
+}
+
+.priority {
+    width: 70px;
+}
+
+/*FORM ----------------------------------------------*/
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+input[type=text] {
+    width: 100%;
+    height: 30px;
+    background-color: var(--medium-grey);
+    border: 1px solid var(--darker-grey);
+    border-radius: 5px;
+    color: var(--lighter-grey);
+    font-size: large;
+    font-family: 'Roboto', sans-serif;
+    padding: 15px;
+}
+
+input[type=text]:focus {
+    border: 1px solid var(--dark-grey);
+}
+
+input[type="date"]{
+    background-color: var(--medium-grey);
+    padding: 5px;
+    font-family: "Roboto", sans-serif;
+    width: 160px;
+    color: var(--lighter-grey);
+    font-size: large;
+    border: 1px solid var(--darker-grey);
+    outline: none;
+    border-radius: 5px;
+    text-align: center;
+}
+
+::-webkit-calendar-picker-indicator{
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#priority {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
+    background-color: var(--medium-grey);
+    color: var(--lighter-grey);
+    text-align: center;
+    border: 1px solid var(--darker-grey);
+    border-radius: 5px;
+}
+
+.save, .cancel {
+    font-family: 'Roboto', sans-serif;
+    color: var(--light-grey);
+    cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.save {
+    font-size: larger;
+}
+
+.cancel {
+    font-size: smaller;
+    color: var(--cancel-red);
+}
+
+.cancel:hover {
+    color: var(--cancel-red-hover);
+}
+
+.save-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 20px;
+    margin-top: 10px;
+    padding: 0 1px;
+}
+
+.blue {
+    color: var(--timely-blue);
+}
+
+/*MODAL ---------------------------------------------*/
+
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    max-width: 100%;
+    height: 160px;
+    max-height: 100%;
+    z-index: 1010;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--dark-grey);
+    border-radius: 4px;
+}
+
+.modal-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 15px;
+    overflow: auto;
+    background-color: var(--dark-grey);
+}
+
+.modal-overlay {
+    z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--overlay-grey);
+}
+
+.hidden {
+    display: none;
+}
+
+/*FOOTER -------------------------------------------*/
+
+.footer {
+    grid-column: 1/3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--lighter-grey);
+    border: none;
+}
+
+.footer a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.footer a:visited {
+    color: var(--lighter-grey);
+}
