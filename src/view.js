@@ -1,8 +1,4 @@
-import { saveTask } from "./controller";
-import { taskList } from "./task";
-
 export default class View {
-
   constructor(controller, containerElement) {
     this.controller = controller;
     this.containerElement = containerElement;
@@ -11,28 +7,37 @@ export default class View {
   buildPage() {
     const content = document.createElement("div");
     content.setAttribute("id", "content");
-    body.appendChild(content);
-    content.appendChild(buildHeader());
-    content.appendChild(buildProjectContainer());
-    content.appendChild(buildTaskContainer());
-    content.appendChild(buildTaskForm());
-    content.appendChild(buildFooter());
-    content.appendChild(buildModalOverlay());
+    this.containerElement.appendChild(content);
+    content.appendChild(this.buildHeader());
+    content.appendChild(this.buildProjectContainer());
+    content.appendChild(this.buildTaskContainer());
+    content.appendChild(this.buildFooter());
+    const modal = this.buildModal();
+    const modalContent = this.buildModalContent();
+    modalContent.appendChild(this.buildTaskForm());
+    modal.appendChild(modalContent);
+    content.appendChild(modal);
+    content.appendChild(this.buildModalOverlay());
   }
 
   buildHeader() {
     const header = document.createElement("div");
     header.classList.add("header");
-    header.innerText = "Timely";
+    const a = document.createElement("a");
+    const h1 = document.createElement("h1");
+    h1.innerText = "Timely";
+    a.setAttribute("href", "")
+    a.appendChild(h1);
+    header.appendChild(a);
     return header;
   }
 
   buildProjectContainer() {
     const projectContainer = document.createElement("div");
     projectContainer.classList.add("project-container");
-    projectContainer.append(buildProjectItem("Inbox"));
-    projectContainer.append(buildProjectItem("Today"));
-    projectContainer.append(buildProjectItem("Tomorrow"));
+    projectContainer.append(this.buildProjectItem("Inbox"));
+    projectContainer.append(this.buildProjectItem("Today"));
+    projectContainer.append(this.buildProjectItem("Tomorrow"));
     return projectContainer;
   }
 
@@ -48,7 +53,7 @@ export default class View {
   buildTaskContainer() {
     const taskContainer = document.createElement("div");
     taskContainer.classList.add("task-container");
-    taskContainer.appendChild(buildTaskContainerHeader("Inbox"));
+    taskContainer.appendChild(this.buildTaskContainerHeader("Inbox"));
     // displayTasks(taskContainer);
     return taskContainer;
   }
@@ -67,15 +72,24 @@ export default class View {
     toolTipText.innerText = "Add a new task";
     plusSign.appendChild(toolTipText);
     plusSign.addEventListener("click", () => {
-      displayTaskForm(modal, modalOverlay);
+      this.displayTaskForm();
     });
     taskContainerHeader.appendChild(plusSign);
     return taskContainerHeader;
   }
 
-  displayTaskForm(modal, modalOverlay) {
-    modal.classList.toggle("hidden");
-    modalOverlay.classList.toggle("hidden");
+  displayTaskForm() {
+    const modal = document.getElementById("modal");
+    const modalOverlay = document.querySelector(".modal-overlay");
+    modal.classList.remove("hidden");
+    modalOverlay.classList.remove("hidden");
+  }
+
+  hideTaskForm() {
+    const modal = document.getElementById("modal");
+    const modalOverlay = document.querySelector(".modal-overlay");
+    modal.classList.add("hidden");
+    modalOverlay.classList.add("hidden");
   }
 
   //This is to try building a new container
@@ -85,7 +99,7 @@ export default class View {
   // }
 
   buildTaskItem(title, date, priority) {
-    const taskItem = document.createElement("div");
+    const taskItem = document.createElement("li");
     taskItem.classList.add("task-item");
     const checkbox = document.createElement("input");
     checkbox.classList.add("checkbox");
@@ -102,7 +116,7 @@ export default class View {
     const deleteButton = document.createElement("span");
     deleteButton.classList.add("delete", "tooltip");
     const deleteButtonImage = document.createElement("img");
-    deleteButtonImage.src = "./trash-small.png";
+    deleteButtonImage.src = "./images/trash-small.png";
     const toolTipText = document.createElement("span");
     toolTipText.classList.add("tooltiptext");
     toolTipText.innerText = "Delete this task";
@@ -121,24 +135,46 @@ export default class View {
   //Will have to build another container
   //For right now, I'll just rebuild the header unnecessarily because I'm stupid
 
-  displayTasks(taskContainer) {
-    taskList.forEach((task) => {
-      const taskItem = buildTaskItem(task.title, task.date, task.priority);
-      taskContainer.appendChild(taskItem);
-    });
+  // displayTasks(taskContainer, taskList) {
+  //   taskList.forEach((task) => {
+  //     const taskItem = buildTaskItem(task.title, task.date, task.priority);
+  //     taskContainer.appendChild(taskItem);
+  //   });
+  // }
+
+  displayNewTask() {
+    const taskContainer = document.querySelector(".task-container");
+    const taskList = this.controller.taskList;
+    const lastTaskItem = taskList[taskList.length-1];
+    taskContainer.appendChild(this.buildTaskItem(lastTaskItem.title, lastTaskItem.dueDate, lastTaskItem.priority));
   }
 
-  buildTaskForm() {
-    //modal
+  buildModal() {
     const modal = document.createElement("div");
     modal.classList.add("modal", "hidden");
     modal.setAttribute("id", "modal");
     const modalContent = document.createElement("div");
     modalContent.classList.add("modal-content");
+    return modal;
+  }
+
+  buildModalContent() {
+    const modalContent = document.createElement("div");
+    modalContent.classList.add("modal-content");
+    return modalContent;
+  }
+
+  buildModalOverlay() {
     const modalOverlay = document.createElement("div");
     modalOverlay.classList.add("modal-overlay", "hidden");
-    modalOverlay.setAttribute("id", "modal-overlay");
-    //form
+    modalOverlay.addEventListener('click', () => {
+      this.hideTaskForm();
+    })
+    return modalOverlay;
+  }
+
+
+  buildTaskForm() {
     const form = document.createElement("div");
     form.classList.add("form");
     //title input
@@ -175,22 +211,17 @@ export default class View {
     cancelButton.classList.add("cancel");
     cancelButton.innerText = "Cancel";
     cancelButton.addEventListener("click", () => {
-      displayTaskForm(modal, modalContent);
+      this.hideTaskForm();
     });
     //save button
     const saveButton = document.createElement("button");
     saveButton.classList.add("save");
-    saveButton.setAttribute("type", "button");
-    saveButton.setAttribute("value", "Save");
     saveButton.innerText = "Save";
     saveButton.addEventListener("click", () => {
-      saveTask(titleInput.value, dateInput.value, priorityDropdown.value);
-      updateTasks();
-      displayTaskForm(modal, modalContent);
-      //update view
+      this.controller.addTask(titleInput.value, dateInput.value, priorityDropdown.value);
+      this.hideTaskForm();
+      this.displayNewTask();
     });
-    modal.appendChild(modalContent);
-    modalContent.appendChild(form);
     form.appendChild(titleInput);
     form.appendChild(formRow);
     formRow.appendChild(dateInput);
@@ -198,25 +229,17 @@ export default class View {
     form.appendChild(saveRow);
     saveRow.appendChild(cancelButton);
     saveRow.appendChild(saveButton);
-    return modal;
+    return form;
   }
 
-  buildModalOverlay() {
-    const modalOverlay = document.createElement("div");
-    modalOverlay.classList.add("modal-overlay", "hidden");
-    return modalOverlay;
-  }
-
-  updateTasks() {
-    //some code
-  }
 
   buildFooter() {
     const footer = document.createElement("div");
     footer.classList.add("footer");
-    const p = document.createElement("p");
-    p.innerText = "jppastorek.com";
-    footer.appendChild(p);
+    const a = document.createElement("a");
+    a.innerText = "jppastorek.com";
+    a.setAttribute('href', '');
+    footer.appendChild(a);
     return footer;
   }
 }

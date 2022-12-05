@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Lobster&family=Pacifico&family=Roboto&family=Roboto+Slab&display=swap');
+
 *,
 *:before,
 *:after {
@@ -47,6 +49,7 @@
 
 .header a {
     text-decoration: none;
+    cursor: pointer;
 }
 
 .header a:visited {
@@ -158,7 +161,6 @@
     background-color: var(--medium-grey);
     border: 1px solid var(--medium-grey);
     border-radius: 4px;
-    cursor: pointer;
 }
 
 .checkbox {
@@ -246,7 +248,7 @@ input[type=text] {
 }
 
 input[type=text]:focus {
-    border: 2px solid var(--darker-grey);
+    border: 1px solid var(--dark-grey);
 }
 
 input[type="date"]{
@@ -269,10 +271,33 @@ input[type="date"]{
     border-radius: 3px;
 }
 
+.form-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+}
+
+#priority {
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-size: large;
+    background-color: var(--medium-grey);
+    color: var(--lighter-grey);
+    text-align: center;
+    border: 1px solid var(--darker-grey);
+    border-radius: 5px;
+}
+
 .save, .cancel {
     font-family: 'Roboto', sans-serif;
     color: var(--light-grey);
     cursor: pointer;
+    background-color: transparent;
+    border: none;
+}
+
+.save {
+    font-size: larger;
 }
 
 .cancel {
@@ -349,4 +374,13 @@ input[type="date"]{
     align-items: center;
     color: var(--lighter-grey);
     border: none;
+}
+
+.footer a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.footer a:visited {
+    color: var(--lighter-grey);
 }

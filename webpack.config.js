@@ -1,44 +1,42 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+
 
 module.exports = {
-  mode: 'development',
+  mode: "development",
   entry: {
-    index: './src/index.js',
-    task: './src/task.js',
-    storage: './src/storage.js',
-    view: './src/view.js',
-    controller: './src/controller.js'
+    index: "./src/index.js",
+    task: "./src/task.js",
+    storage: "./src/storage.js",
+    view: "./src/view.js",
+    controller: "./src/controller.js",
   },
-  devtool: 'inline-source-map',
+  devtool: "inline-source-map",
   plugins: [
-
     new HtmlWebpackPlugin({
-
-      title: 'Timely',
-
+      title: "Timely",
     }),
-
   ],
   output: {
-    filename: '[name].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
+    filename: "[name].bundle.js",
+    path: path.resolve(__dirname, "dist"),
     clean: true,
   },
   module: {
-    rules: [{
-            test: /\.css$/i,
-            use: ['style-loader', 'css-loader'],
-        },
-        {
-            test: /\.(png|svg|jpg|jpeg|gif)$/i,
-            type: 'asset/resource',
-        },
-        {
-            test: /\.(png|svg|jpg|jpeg|gif)$/i,
-            type: 'asset/resource',
-        },
+    rules: [
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
+      {
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
+        type: "asset/resource",
+      },
     ],
-},
-watch: true,
+  },
+  watch: true,
 };

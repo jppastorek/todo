@@ -1,9 +1,10 @@
-import { Controller } from './controller.js';
-import { View } from './view.js';
+import Controller from './controller.js';
+import View from './view.js';
 import './styles.css';
 
+const body = document.body;
 const controller = new Controller();
-const view = new View(controller, document.body)
+const view = new View(controller, body)
 view.buildPage();
 
 //This is just used to make sure the objects worked and dates formatted properly

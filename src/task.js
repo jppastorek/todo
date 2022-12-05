@@ -1,10 +1,10 @@
 //MODEL LAYER
-export class Task {
-  constructor(title, dueDate, priority, state) {
+export default class Task {
+  constructor(title, dueDate, priority, isDone) {
     this.title = title;
     this.dueDate = dueDate;
     this.priority = priority;
-    this.state = state;
+    this.isDone = isDone;
   }
 
   getTitle() {
@@ -34,13 +34,13 @@ export class Task {
     return this.priority;
   }
 
-  getState() {
-    return this.state;
+  getStatus() {
+    return this.isDone;
   }
 
-  setState() {
-    this.state = !this.state;
-    return this.state;
+  setStatus() {
+    this.isDone = !this.isDone;
+    return this.isDone;
   }
 }
 
