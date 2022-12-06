@@ -205,6 +205,7 @@ export default class View {
     titleInput.setAttribute("id", "title");
     titleInput.setAttribute("for", "title");
     titleInput.setAttribute("placeholder", "New task");
+    titleInput.setAttribute("maxlength", "15");
     titleInput.required = true;
     //new row
     const formRow = document.createElement("div");
@@ -241,9 +242,15 @@ export default class View {
     saveButton.classList.add("save");
     saveButton.innerText = "Save";
     saveButton.addEventListener("click", () => {
-      this.saveTask(titleInput.value, dateInput.value, priorityDropdown.value);
-      this.hideTaskForm();
-      this.displayNewTask();
+      if (!dateInput.value) {
+        alert('Choose a date');
+      }
+      else {
+        this.saveTask(titleInput.value, dateInput.value, priorityDropdown.value);
+        this.hideTaskForm();
+        this.displayNewTask();
+      }
+      
     });
     form.appendChild(titleInput);
     form.appendChild(formRow);

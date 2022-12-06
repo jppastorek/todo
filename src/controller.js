@@ -9,6 +9,7 @@ export default class Controller {
       const task = new Task(title, format(new Date(dueDate), 'MM/dd/yyyy'), priority, false)
       this.taskList.push(task);
       console.log(this.taskList);
+      console.log(dueDate);
     }
   
     deleteTask(item) {
