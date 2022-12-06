@@ -133,12 +133,37 @@
     position: absolute;
     z-index: 1;
     right: 135%;
-    top: 12px;
+    top: 14px;
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 }
 
 .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.tooltip-delete {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip-delete .tooltiptext-delete {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--darker-grey);
+    color: var(--lighter-grey);
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+    right: 135%;
+    top: -5px;
+    font-size: 14px;
+    font-family: 'Roboto', sans-serif;
+}
+
+.tooltip-delete:hover .tooltiptext-delete {
     visibility: visible;
 }
 
@@ -225,7 +250,24 @@ label::before {
 
 .priority {
     width: 70px;
+    text-align: left;
 }
+
+.checkbox-container {
+    width: 1.5em;
+}
+
+.title-container {
+    width: 100px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.date-container {
+    width: 100px;
+    text-align: left;
+}
+
 
 /*FORM ----------------------------------------------*/
 

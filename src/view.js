@@ -1,3 +1,5 @@
+import Icon from "./images/trash-small.png";
+
 export default class View {
   constructor(controller, containerElement) {
     this.controller = controller;
@@ -95,35 +97,50 @@ export default class View {
   buildTaskItem(title, date, priority) {
     const taskItem = document.createElement("li");
     taskItem.classList.add("task-item");
+    const checkboxDiv = document.createElement("div");
+    checkboxDiv.classList.add("checkbox-container");
     const checkbox = document.createElement("input");
     checkbox.classList.add("checkbox");
     checkbox.setAttribute("type", "checkbox");
     checkbox.setAttribute("name", "task-item");
+    const taskItemTitleDiv = document.createElement("div");
+    taskItemTitleDiv.classList.add("title-container");
     const taskItemTitle = document.createElement("label");
     taskItemTitle.setAttribute("for", "task-item");
     taskItemTitle.innerText = title;
+    const taskDateDiv = document.createElement("div");
+    taskDateDiv.classList.add("date-container");
     const taskDate = document.createElement("p");
     taskDate.innerText = date;
+    const taskPriorityDiv = document.createElement("div");
+    taskPriorityDiv.classList.add("priority")
     const taskPriority = document.createElement("p");
     taskPriority.classList.add(priority, "priority");
     taskPriority.innerText = priority;
+    const deleteButtonDiv = document.createElement("div");
+    deleteButtonDiv.classList.add("delete-container");
     const deleteButton = document.createElement("span");
-    deleteButton.classList.add("delete", "tooltip");
-    const deleteButtonImage = document.createElement("img");
-    deleteButtonImage.src = "./images/trash-small.png";
+    deleteButton.classList.add("delete", "tooltip-delete");
+    const deleteButtonImage = new Image();
+    deleteButtonImage.src = Icon;
     const toolTipText = document.createElement("span");
-    toolTipText.classList.add("tooltiptext");
+    toolTipText.classList.add("tooltiptext-delete");
     toolTipText.innerText = "Delete this task";
     deleteButton.appendChild(deleteButtonImage);
     deleteButton.appendChild(toolTipText);
     deleteButton.addEventListener("click", () => {
       this.deleteTask(taskItem);
     });
-    taskItem.appendChild(checkbox);
-    taskItem.appendChild(taskItemTitle);
-    taskItem.appendChild(taskDate);
-    taskItem.appendChild(taskPriority);
-    taskItem.appendChild(deleteButton);
+    checkboxDiv.appendChild(checkbox);
+    taskItemTitleDiv.appendChild(taskItemTitle);
+    taskDateDiv.appendChild(taskDate);
+    taskPriorityDiv.appendChild(taskPriority);
+    deleteButtonDiv.appendChild(deleteButton);
+    taskItem.appendChild(checkboxDiv);
+    taskItem.appendChild(taskItemTitleDiv);
+    taskItem.appendChild(taskDateDiv);
+    taskItem.appendChild(taskPriorityDiv);
+    taskItem.appendChild(deleteButtonDiv);
     taskItem.setAttribute("data", this.controller.taskList.length - 1);
     return taskItem;
   }
@@ -188,6 +205,7 @@ export default class View {
     titleInput.setAttribute("id", "title");
     titleInput.setAttribute("for", "title");
     titleInput.setAttribute("placeholder", "New task");
+    titleInput.required = true;
     //new row
     const formRow = document.createElement("div");
     formRow.classList.add("form-row");
