@@ -1,10 +1,12 @@
 import Controller from './controller.js';
 import View from './view.js';
 import './styles.css';
+import Storage from './storage.js';
 
 const body = document.body;
 const controller = new Controller();
-const view = new View(controller, body)
+const storage = new Storage();
+const view = new View(controller, body, storage);
 view.buildPage();
 
 //This is just used to make sure the objects worked and dates formatted properly

@@ -1,9 +1,10 @@
 import Icon from "./images/trash-small.png";
 
 export default class View {
-  constructor(controller, containerElement) {
+  constructor(controller, containerElement, storage) {
     this.controller = controller;
     this.containerElement = containerElement;
+    this.storage = storage;
   }
 
   buildPage() {
