@@ -26,7 +26,7 @@ export default class View {
     const a = document.createElement("a");
     const h1 = document.createElement("h1");
     h1.innerText = "Timely";
-    a.setAttribute("href", "")
+    a.setAttribute("href", "");
     a.appendChild(h1);
     header.appendChild(a);
     return header;
@@ -92,12 +92,6 @@ export default class View {
     modalOverlay.classList.add("hidden");
   }
 
-  //This is to try building a new container
-  // export function buildTaskItemsContainer() {
-  //   const taskItemsContainer = document.createElement('div');
-  //   taskItemsContainer.classList.add('m');
-  // }
-
   buildTaskItem(title, date, priority) {
     const taskItem = document.createElement("li");
     taskItem.classList.add("task-item");
@@ -122,31 +116,43 @@ export default class View {
     toolTipText.innerText = "Delete this task";
     deleteButton.appendChild(deleteButtonImage);
     deleteButton.appendChild(toolTipText);
+    deleteButton.addEventListener("click", () => {
+      this.deleteTask(taskItem);
+    });
     taskItem.appendChild(checkbox);
     taskItem.appendChild(taskItemTitle);
     taskItem.appendChild(taskDate);
     taskItem.appendChild(taskPriority);
     taskItem.appendChild(deleteButton);
+    taskItem.setAttribute("data", this.controller.taskList.length - 1);
     return taskItem;
   }
-
-  //Need to figure out how to append each task to the task container
-  //I would like to not rebuild the header every time, but there may be no way around that
-  //Will have to build another container
-  //For right now, I'll just rebuild the header unnecessarily because I'm stupid
-
-  // displayTasks(taskContainer, taskList) {
-  //   taskList.forEach((task) => {
-  //     const taskItem = buildTaskItem(task.title, task.date, task.priority);
-  //     taskContainer.appendChild(taskItem);
-  //   });
-  // }
 
   displayNewTask() {
     const taskContainer = document.querySelector(".task-container");
     const taskList = this.controller.taskList;
-    const lastTaskItem = taskList[taskList.length-1];
-    taskContainer.appendChild(this.buildTaskItem(lastTaskItem.title, lastTaskItem.dueDate, lastTaskItem.priority));
+    const lastTaskItem = taskList[taskList.length - 1];
+    taskContainer.appendChild(
+      this.buildTaskItem(
+        lastTaskItem.title,
+        lastTaskItem.dueDate,
+        lastTaskItem.priority
+      )
+    );
+  }
+
+  taskViews = [];
+
+  saveTask(title, date, priority) {
+    this.controller.addTask(title, date, priority);
+  }
+
+  deleteTask(item) {
+    if (confirm("Are you sure you want to delete this item?") === true) {
+      this.controller.deleteTask(item.getAttribute("data"));
+      const taskContainer = document.querySelector(".task-container");
+      taskContainer.removeChild(item);
+    }
   }
 
   buildModal() {
@@ -167,12 +173,11 @@ export default class View {
   buildModalOverlay() {
     const modalOverlay = document.createElement("div");
     modalOverlay.classList.add("modal-overlay", "hidden");
-    modalOverlay.addEventListener('click', () => {
+    modalOverlay.addEventListener("click", () => {
       this.hideTaskForm();
-    })
+    });
     return modalOverlay;
   }
-
 
   buildTaskForm() {
     const form = document.createElement("div");
@@ -218,7 +223,7 @@ export default class View {
     saveButton.classList.add("save");
     saveButton.innerText = "Save";
     saveButton.addEventListener("click", () => {
-      this.controller.addTask(titleInput.value, dateInput.value, priorityDropdown.value);
+      this.saveTask(titleInput.value, dateInput.value, priorityDropdown.value);
       this.hideTaskForm();
       this.displayNewTask();
     });
@@ -232,13 +237,12 @@ export default class View {
     return form;
   }
 
-
   buildFooter() {
     const footer = document.createElement("div");
     footer.classList.add("footer");
     const a = document.createElement("a");
     a.innerText = "jppastorek.com";
-    a.setAttribute('href', '');
+    a.setAttribute("href", "");
     footer.appendChild(a);
     return footer;
   }
