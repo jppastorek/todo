@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack"
+    "build": "webpack",
+    "deploy": "./node_modules/gh-pages/bin/gh-pages-clean.js && gh-pages -d build"
   },
   "repository": {
     "type": "git",
@@ -16,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/jppastorek/todo/issues"
   },
-  "homepage": "https://github.com/jppastorek/todo#readme",
+  "homepage": "https://jppastorek.github.io/todo/",
   "devDependencies": {
     "css-loader": "^6.7.2",
     "html-webpack-plugin": "^5.5.0",
