@@ -66,6 +66,8 @@
     border: 1px solid var(--dark-grey);
     border-radius: 4px;
     font-family: 'Roboto Slab', serif;
+    resize: horizontal;
+    overflow: auto;
 }
 
 .project-item {

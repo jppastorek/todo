@@ -7,6 +7,7 @@ export default class View {
   }
 
   buildPage() {
+    this.controller.populateTaskList();
     const content = document.createElement("div");
     content.setAttribute("id", "content");
     this.containerElement.appendChild(content);
@@ -56,8 +57,17 @@ export default class View {
     const taskContainer = document.createElement("div");
     taskContainer.classList.add("task-container");
     taskContainer.appendChild(this.buildTaskContainerHeader("Inbox"));
-    // displayTasks(taskContainer);
+    if (this.controller.taskList.length > 0){
+      this.displayTasksFromStorage(taskContainer);
+    };
     return taskContainer;
+  }
+
+  displayTasksFromStorage(taskContainer) {
+    const taskList = this.controller.taskList;
+    taskList.forEach((task) => {
+      taskContainer.append(this.buildTaskItem(task.title, task.dueDate, task.priority));
+    })
   }
 
   buildTaskContainerHeader(name) {
