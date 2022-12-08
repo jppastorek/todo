@@ -13,20 +13,12 @@ export default class Controller {
       false
     );
     this.taskList.push(task);
-    console.log("task list");
-    console.log(this.taskList);
     this.storeTask(task);
-    console.log("local storage");
-    console.log(localStorage);
   }
 
   deleteTask(itemIndex) {
     this.taskList.splice(itemIndex, 1);
     this.removeTaskFromStorage(`task${itemIndex}`);
-    console.log("task list");
-    console.log(this.taskList);
-    console.log("local storage");
-    console.log(localStorage);
   }
 
   storeTask(task) {
@@ -36,8 +28,6 @@ export default class Controller {
 
   removeTaskFromStorage(task) {
     localStorage.removeItem(task);
-    //this will not when you remove them out of order because their names task1 etc will not line up with their index in the storage
-    //or maybe not??? it is working so far...!!!
   }
 
   populateTaskList() {
@@ -47,6 +37,5 @@ export default class Controller {
         this.taskList.push(JSON.parse(value));
       });
     }
-    console.log(this.taskList);
   }
 }
