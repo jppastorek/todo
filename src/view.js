@@ -253,7 +253,7 @@ export default class View {
     saveButton.innerText = "Save";
     saveButton.addEventListener("click", () => {
       if (!dateInput.value) {
-        alert('Choose a date');
+        alert('Please choose a date');
       }
       else {
         this.saveTask(titleInput.value, dateInput.value, priorityDropdown.value);

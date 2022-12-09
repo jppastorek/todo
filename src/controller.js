@@ -1,5 +1,6 @@
 import Task from "./task.js";
 import format from "date-fns/format";
+
 export default class Controller {
   constructor() {
     this.taskList = [];
@@ -13,29 +14,23 @@ export default class Controller {
       false
     );
     this.taskList.push(task);
-    this.storeTask(task);
+    this.updateStorage();
   }
 
   deleteTask(itemIndex) {
     this.taskList.splice(itemIndex, 1);
-    this.removeTaskFromStorage(`task${itemIndex}`);
+    this.updateStorage();
   }
 
-  storeTask(task) {
-    const taskJSON = JSON.stringify(task);
-    localStorage.setItem(`task${this.taskList.length - 1}`, taskJSON);
-  }
-
-  removeTaskFromStorage(task) {
-    localStorage.removeItem(task);
+  updateStorage() {
+    const taskJSON = JSON.stringify(this.taskList);
+    localStorage.clear();
+    localStorage.setItem('taskList', taskJSON);
   }
 
   populateTaskList() {
     if (localStorage.length > 0) {
-      const values = Object.values(localStorage);
-      values.forEach((value) => {
-        this.taskList.push(JSON.parse(value));
-      });
+      this.taskList = JSON.parse(localStorage.getItem('taskList'));
     }
   }
 }
