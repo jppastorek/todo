@@ -7,7 +7,6 @@ module.exports = {
   entry: {
     index: "./src/index.js",
     task: "./src/task.js",
-    storage: "./src/storage.js",
     view: "./src/view.js",
     controller: "./src/controller.js",
   },

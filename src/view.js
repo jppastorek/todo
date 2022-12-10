@@ -10,7 +10,6 @@ export default class View {
     this.controller.populateTaskList();
     const content = document.createElement("div");
     content.setAttribute("id", "content");
-    this.containerElement.appendChild(content);
     content.appendChild(this.buildHeader());
     content.appendChild(this.buildProjectContainer());
     content.appendChild(this.buildTaskContainer());
@@ -21,6 +20,7 @@ export default class View {
     modal.appendChild(modalContent);
     content.appendChild(modal);
     content.appendChild(this.buildModalOverlay());
+    this.containerElement.appendChild(content);
   }
 
   buildHeader() {

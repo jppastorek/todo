@@ -9,7 +9,7 @@ export default class Controller {
   addTask(title, dueDate, priority) {
     const task = new Task(
       title,
-      format(new Date(dueDate), "MM/dd/yyyy"),
+      dueDate,
       priority,
       false
     );
@@ -24,7 +24,6 @@ export default class Controller {
 
   updateStorage() {
     const taskJSON = JSON.stringify(this.taskList);
-    localStorage.clear();
     localStorage.setItem('taskList', taskJSON);
   }
 
