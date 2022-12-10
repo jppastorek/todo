@@ -6,8 +6,9 @@ export default class Controller {
     this.taskList = [];
   }
 
-  addTask(title, dueDate, priority) {
+  addTask(project, title, dueDate, priority) {
     const task = new Task(
+      project,
       title,
       dueDate,
       priority,
@@ -15,6 +16,7 @@ export default class Controller {
     );
     this.taskList.push(task);
     this.updateStorage();
+    console.log(this.taskList);
   }
 
   deleteTask(itemIndex) {

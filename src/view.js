@@ -74,6 +74,7 @@ export default class View {
     const taskContainerHeader = document.createElement("div");
     taskContainerHeader.classList.add("tasks-header");
     const taskContainerHeaderText = document.createElement("h3");
+    taskContainerHeaderText.classList.add("project-title");
     taskContainerHeaderText.innerText = `${name}`;
     taskContainerHeader.appendChild(taskContainerHeaderText);
     const plusSign = document.createElement("h1");
@@ -168,10 +169,8 @@ export default class View {
     );
   }
 
-  taskViews = [];
-
-  saveTask(title, date, priority) {
-    this.controller.addTask(title, date, priority);
+  saveTask(project, title, date, priority) {
+    this.controller.addTask(project, title, date, priority);
   }
 
   deleteTask(item) {
@@ -252,11 +251,12 @@ export default class View {
     saveButton.classList.add("save");
     saveButton.innerText = "Save";
     saveButton.addEventListener("click", () => {
+      const projectTitle = document.querySelector(".project-title");
       if (!dateInput.value) {
         alert('Please choose a date');
       }
       else {
-        this.saveTask(titleInput.value, dateInput.value, priorityDropdown.value);
+        this.saveTask(projectTitle.innerText, titleInput.value, dateInput.value, priorityDropdown.value);
         this.hideTaskForm();
         this.displayNewTask();
       }
