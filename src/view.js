@@ -38,10 +38,32 @@ export default class View {
   buildProjectContainer() {
     const projectContainer = document.createElement("div");
     projectContainer.classList.add("project-container");
+    projectContainer.appendChild(this.buildProjectContainerHeader());
     projectContainer.append(this.buildProjectItem("Inbox"));
     projectContainer.append(this.buildProjectItem("Today"));
     projectContainer.append(this.buildProjectItem("Tomorrow"));
     return projectContainer;
+  }
+
+  buildProjectContainerHeader() {
+    const projectContainerHeader = document.createElement("div");
+    projectContainerHeader.classList.add("project-header");
+    const projectContainerHeaderText = document.createElement("h3");
+    projectContainerHeaderText.classList.add("project-header-text");
+    projectContainerHeaderText.innerText = 'Projects';
+    projectContainerHeader.appendChild(projectContainerHeaderText);
+    const plusSign = document.createElement("h1");
+    plusSign.classList.add("add", "tooltip");
+    plusSign.innerText = "+";
+    const toolTipText = document.createElement("span");
+    toolTipText.classList.add("tooltiptext");
+    toolTipText.innerText = "Add a new project";
+    plusSign.appendChild(toolTipText);
+    plusSign.addEventListener("click", () => {
+      this.displayTaskForm();
+    });
+    projectContainerHeader.appendChild(plusSign);
+    return projectContainerHeader;
   }
 
   buildProjectItem(name) {
@@ -50,6 +72,12 @@ export default class View {
     const projectTitle = document.createElement("h3");
     projectTitle.innerText = `${name}`;
     projectItem.append(projectTitle);
+    projectItem.addEventListener("click", () => {
+      const tasksHeader = document.querySelector(".project-title");
+      const taskContainer = document.querySelector(".task-container");
+      tasksHeader.innerText = `${name}`;
+      this.displayTasksFromStorage(taskContainer, name);
+    })
     return projectItem;
   }
 
@@ -58,15 +86,24 @@ export default class View {
     taskContainer.classList.add("task-container");
     taskContainer.appendChild(this.buildTaskContainerHeader("Inbox"));
     if (this.controller.taskList.length > 0){
-      this.displayTasksFromStorage(taskContainer);
+      this.displayTasksFromStorage(taskContainer, "Inbox");
     };
     return taskContainer;
   }
 
-  displayTasksFromStorage(taskContainer) {
+  displayTasksFromStorage(taskContainer, project) {
+    const taskItems = document.getElementsByClassName("task-item");
+    if (taskItems.length > 0) {
+      for (let i=0; i<taskItems.length; i++) {
+        taskContainer.removeChild(taskItems.item(i));
+      }
+    }
     const taskList = this.controller.taskList;
     taskList.forEach((task) => {
-      taskContainer.append(this.buildTaskItem(task.title, task.dueDate, task.priority));
+      if (task.project == project) {
+        taskContainer.append(this.buildTaskItem(task.title, task.dueDate, task.priority));
+        console.log(task);
+      }
     })
   }
 

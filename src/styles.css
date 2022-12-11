@@ -99,7 +99,7 @@
 
 /*-----TASKS HEADER--------*/
 
-.tasks-header {
+.tasks-header, .project-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
