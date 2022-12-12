@@ -4,6 +4,7 @@ export default class View {
   constructor(controller, containerElement) {
     this.controller = controller;
     this.containerElement = containerElement;
+    this.currentProject = "Inbox";
   }
 
   buildPage() {
@@ -50,7 +51,7 @@ export default class View {
     projectContainerHeader.classList.add("project-header");
     const projectContainerHeaderText = document.createElement("h3");
     projectContainerHeaderText.classList.add("project-header-text");
-    projectContainerHeaderText.innerText = 'Projects';
+    projectContainerHeaderText.innerText = "Projects";
     projectContainerHeader.appendChild(projectContainerHeaderText);
     const plusSign = document.createElement("h1");
     plusSign.classList.add("add", "tooltip");
@@ -73,11 +74,12 @@ export default class View {
     projectTitle.innerText = `${name}`;
     projectItem.append(projectTitle);
     projectItem.addEventListener("click", () => {
+      this.currentProject = name;
       const tasksHeader = document.querySelector(".project-title");
       const taskContainer = document.querySelector(".task-container");
       tasksHeader.innerText = `${name}`;
       this.displayTasksFromStorage(taskContainer, name);
-    })
+    });
     return projectItem;
   }
 
@@ -85,26 +87,29 @@ export default class View {
     const taskContainer = document.createElement("div");
     taskContainer.classList.add("task-container");
     taskContainer.appendChild(this.buildTaskContainerHeader("Inbox"));
-    if (this.controller.taskList.length > 0){
+    if (this.controller.taskList.length > 0) {
       this.displayTasksFromStorage(taskContainer, "Inbox");
-    };
+    }
     return taskContainer;
   }
 
   displayTasksFromStorage(taskContainer, project) {
     const taskItems = document.getElementsByClassName("task-item");
-    if (taskItems.length > 0) {
-      for (let i=0; i<taskItems.length; i++) {
-        taskContainer.removeChild(taskItems.item(i));
+    const numberOfItems = taskItems.length;
+    if (numberOfItems > 0) {
+      for (let i=0; i<numberOfItems; i++) {
+        taskItems[0].remove();
       }
+
     }
     const taskList = this.controller.taskList;
     taskList.forEach((task) => {
       if (task.project == project) {
-        taskContainer.append(this.buildTaskItem(task.title, task.dueDate, task.priority));
-        console.log(task);
+        taskContainer.append(
+          this.buildTaskItem(project, task.title, task.dueDate, task.priority)
+        );
       }
-    })
+    });
   }
 
   buildTaskContainerHeader(name) {
@@ -142,7 +147,7 @@ export default class View {
     modalOverlay.classList.add("hidden");
   }
 
-  buildTaskItem(title, date, priority) {
+  buildTaskItem(project, title, date, priority) {
     const taskItem = document.createElement("li");
     taskItem.classList.add("task-item");
     const checkboxDiv = document.createElement("div");
@@ -161,7 +166,7 @@ export default class View {
     const taskDate = document.createElement("p");
     taskDate.innerText = date;
     const taskPriorityDiv = document.createElement("div");
-    taskPriorityDiv.classList.add("priority")
+    taskPriorityDiv.classList.add("priority");
     const taskPriority = document.createElement("p");
     taskPriority.classList.add(priority, "priority");
     taskPriority.innerText = priority;
@@ -177,7 +182,8 @@ export default class View {
     deleteButton.appendChild(deleteButtonImage);
     deleteButton.appendChild(toolTipText);
     deleteButton.addEventListener("click", () => {
-      this.deleteTask(taskItem);
+      this.currentProject = project;
+      this.deleteTask(taskItem, this.currentProject);
     });
     checkboxDiv.appendChild(checkbox);
     taskItemTitleDiv.appendChild(taskItemTitle);
@@ -193,28 +199,16 @@ export default class View {
     return taskItem;
   }
 
-  displayNewTask() {
-    const taskContainer = document.querySelector(".task-container");
-    const taskList = this.controller.taskList;
-    const lastTaskItem = taskList[taskList.length - 1];
-    taskContainer.appendChild(
-      this.buildTaskItem(
-        lastTaskItem.title,
-        lastTaskItem.dueDate,
-        lastTaskItem.priority
-      )
-    );
-  }
-
   saveTask(project, title, date, priority) {
     this.controller.addTask(project, title, date, priority);
+    console.log(this.controller.taskList);
   }
 
-  deleteTask(item) {
+  deleteTask(item, project) {
     if (confirm("Are you sure you want to delete this item?") === true) {
       this.controller.deleteTask(item.getAttribute("data"));
       const taskContainer = document.querySelector(".task-container");
-      taskContainer.removeChild(item);
+      this.displayTasksFromStorage(taskContainer, project);
     }
   }
 
@@ -290,14 +284,18 @@ export default class View {
     saveButton.addEventListener("click", () => {
       const projectTitle = document.querySelector(".project-title");
       if (!dateInput.value) {
-        alert('Please choose a date');
-      }
-      else {
-        this.saveTask(projectTitle.innerText, titleInput.value, dateInput.value, priorityDropdown.value);
+        alert("Please choose a date");
+      } else {
+        this.saveTask(
+          projectTitle.innerText,
+          titleInput.value,
+          dateInput.value,
+          priorityDropdown.value
+        );
         this.hideTaskForm();
-        this.displayNewTask();
+        const taskContainer = document.querySelector(".task-container");
+        this.displayTasksFromStorage(taskContainer, this.currentProject);
       }
-      
     });
     form.appendChild(titleInput);
     form.appendChild(formRow);

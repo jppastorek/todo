@@ -16,7 +16,6 @@ export default class Controller {
     );
     this.taskList.push(task);
     this.updateStorage();
-    console.log(this.taskList);
   }
 
   deleteTask(itemIndex) {
