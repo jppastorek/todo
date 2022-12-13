@@ -368,7 +368,7 @@ input[type="date"]{
 
 /*MODAL ---------------------------------------------*/
 
-.modal {
+.modal, dialog {
     position: fixed;
     top: 50%;
     left: 50%;
@@ -408,6 +408,26 @@ input[type="date"]{
 .hidden {
     display: none;
 }
+
+/*DIALOG -------------------------------------------*/
+dialog {
+    border-radius: 5px;
+    box-shadow: 10px 10px 20px 2px gray;
+    background-color: var(--dark-grey);
+    padding: 15px;
+    width: 350px;
+  }
+  
+  dialog::backdrop {
+    animation: fade 0.5s ease forwards;
+    background-color: var(--darker-grey);
+  }
+
+  dialog h1 {
+    margin-bottom: 20px;
+    color: var(--lighter-grey);
+    font-family: 'Roboto Slab', serif;
+  }
 
 /*FOOTER -------------------------------------------*/
 

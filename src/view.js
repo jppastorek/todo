@@ -21,6 +21,7 @@ export default class View {
     modal.appendChild(modalContent);
     content.appendChild(modal);
     content.appendChild(this.buildModalOverlay());
+    content.appendChild(this.buildProjectForm());
     this.containerElement.appendChild(content);
   }
 
@@ -61,7 +62,7 @@ export default class View {
     toolTipText.innerText = "Add a new project";
     plusSign.appendChild(toolTipText);
     plusSign.addEventListener("click", () => {
-      this.displayTaskForm();
+      document.querySelector("#dialog").showModal();
     });
     projectContainerHeader.appendChild(plusSign);
     return projectContainerHeader;
@@ -305,6 +306,50 @@ export default class View {
     saveRow.appendChild(cancelButton);
     saveRow.appendChild(saveButton);
     return form;
+  }
+
+  buildProjectForm() {
+    const dialog = document.createElement("dialog");
+    dialog.setAttribute("id", "dialog");
+    const form = document.createElement("form");
+    form.setAttribute("method", "dialog");
+    const header = document.createElement("h1");
+    header.classList.add("project-form-header");
+    header.innerText = "Add new project"
+    const titleInput = document.createElement("input");
+    titleInput.setAttribute("type", "text");
+    titleInput.setAttribute("id", "title");
+    titleInput.setAttribute("for", "title");
+    titleInput.setAttribute("placeholder", "Project name");
+    titleInput.setAttribute("maxlength", "15");
+    titleInput.required = true;
+    const saveRow = document.createElement("div");
+    saveRow.classList.add("save-row");
+    //cancel button
+    const cancelButton = document.createElement("button");
+    cancelButton.classList.add("cancel");
+    cancelButton.innerText = "Cancel";
+    cancelButton.addEventListener("click", () => {
+      dialog.close();
+    });
+    //save button
+    const saveButton = document.createElement("button");
+    saveButton.classList.add("save");
+    saveButton.innerText = "Save";
+    saveButton.addEventListener("click", () => {
+      const projectContainer = document.querySelector(".project-container");
+      const taskContainer = document.querySelector(".task-container");
+      projectContainer.appendChild(this.buildProjectItem(titleInput.value));
+      this.displayTasksFromStorage(taskContainer, titleInput.value);
+      dialog.close();
+    });
+    dialog.appendChild(form);
+    form.appendChild(header);
+    form.appendChild(titleInput);
+    form.appendChild(saveRow);
+    saveRow.appendChild(cancelButton);
+    saveRow.appendChild(saveButton);
+    return dialog;
   }
 
   buildFooter() {
