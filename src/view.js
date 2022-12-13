@@ -106,7 +106,7 @@ export default class View {
     taskList.forEach((task) => {
       if (task.project == project) {
         taskContainer.append(
-          this.buildTaskItem(project, task.title, task.dueDate, task.priority)
+          this.buildTaskItem(project, task.title, task.dueDate, task.priority, taskList.indexOf(task))
         );
       }
     });
@@ -147,7 +147,7 @@ export default class View {
     modalOverlay.classList.add("hidden");
   }
 
-  buildTaskItem(project, title, date, priority) {
+  buildTaskItem(project, title, date, priority, index) {
     const taskItem = document.createElement("li");
     taskItem.classList.add("task-item");
     const checkboxDiv = document.createElement("div");
@@ -195,7 +195,7 @@ export default class View {
     taskItem.appendChild(taskDateDiv);
     taskItem.appendChild(taskPriorityDiv);
     taskItem.appendChild(deleteButtonDiv);
-    taskItem.setAttribute("data", this.controller.taskList.length - 1);
+    taskItem.setAttribute("data", index);
     return taskItem;
   }
 
