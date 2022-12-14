@@ -85,6 +85,11 @@
     padding: 9px;
 }
 
+.active {
+    background-color: var(--medium-grey);
+    border: 1px solid var(--medium-grey);
+}
+
 /*TASKS --------------------------------------------*/
 
 .task-container {
@@ -342,15 +347,20 @@ input[type="date"]{
 
 .save {
     font-size: larger;
+    color: var(--timely-blue);
+}
+
+.save:hover {
+    color: var(--lighter-timely-blue);
 }
 
 .cancel {
     font-size: smaller;
-    color: var(--cancel-red);
+    color: var(--lighter-grey);
 }
 
 .cancel:hover {
-    color: var(--cancel-red-hover);
+    color: var(--cancel-red);
 }
 
 .save-row {
@@ -358,6 +368,7 @@ input[type="date"]{
     justify-content: space-around;
     align-items: center;
     height: 20px;
+    width: 100%;
     margin-top: 10px;
     padding: 0 1px;
 }
@@ -368,14 +379,14 @@ input[type="date"]{
 
 /*MODAL ---------------------------------------------*/
 
-.modal, dialog {
+.modal, .project-form {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 300px;
     max-width: 100%;
-    height: 160px;
+    height: 230px;
     max-height: 100%;
     z-index: 1010;
     display: flex;
@@ -409,24 +420,19 @@ input[type="date"]{
     display: none;
 }
 
-/*DIALOG -------------------------------------------*/
-dialog {
-    border-radius: 5px;
-    box-shadow: 10px 10px 20px 2px gray;
+/*PROJECT FORM -------------------------------------------*/
+.project-form {
+    border-radius: 4px;
     background-color: var(--dark-grey);
     padding: 15px;
     width: 350px;
   }
-  
-  dialog::backdrop {
-    animation: fade 0.5s ease forwards;
-    background-color: var(--darker-grey);
-  }
 
-  dialog h1 {
+  .project-form h1, .task-form h1 {
     margin-bottom: 20px;
     color: var(--lighter-grey);
     font-family: 'Roboto Slab', serif;
+    text-align: center;
   }
 
 /*FOOTER -------------------------------------------*/
